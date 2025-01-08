@@ -1,0 +1,164 @@
+/* Stili generali già definiti */
+:root {
+    --dark-green: #184A45; /* Verde scuro */
+    --bright-yellow: #FFC107; /* Giallo brillante */
+    --neutral-gray: #EDEDED; /* Sfondo principale */
+    --dark-blue: #1E293B; /* Blu scuro */
+    --white: #FFFFFF; /* Bianco */
+}
+
+/* Layout generale */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--neutral-gray);
+    color: var(--dark-blue);
+}
+
+header {
+    background: var(--bright-yellow);
+    color: var(--dark-green);
+    display: flex;
+    flex-direction: column; /* Layout verticale */
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo-container {
+    margin-bottom: 10px; /* Spazio sotto il logo */
+}
+
+.logo {
+    max-width: 175px;
+    height: auto;
+}
+
+/* Menu di navigazione sotto il logo */
+header nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    gap: 20px;
+}
+
+header nav ul li a {
+    color: var(--dark-green);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+header nav ul li a:hover {
+    color: var(--dark-blue);
+}
+
+/* Sezioni visibili correttamente */
+main {
+    padding-top: 200px; /* Compensa l'altezza del menu fisso */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 200px); /* Ogni sezione occupa l'intero schermo meno il menu */
+}
+
+section {
+    padding: 2rem;
+    margin: 0 auto;
+    max-width: 800px;
+    background-color: var(--white);
+    border-left: 6px solid var(--bright-yellow);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+    text-align: center;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+/* Hover su sezione */
+section:hover {
+    background-color: var(--dark-green);
+    color: var(--white);
+    transform: scale(1.02);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    background: var(--bright-yellow);
+    color: var(--dark-green);
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+/* Responsive Design */
+
+/* Schermi medi (tablet) */
+@media (max-width: 768px) {
+    header {
+        padding: 1rem;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .logo {
+        max-width: 120px;
+    }
+
+    section {
+        max-width: 90%;
+    }
+}
+
+/* Schermi piccoli (smartphone) */
+@media (max-width: 480px) {
+    header {
+        padding: 0.5rem;
+    }
+
+    .logo {
+        max-width: 100px;
+    }
+
+    section {
+        max-width: 95%;
+        padding: 1.5rem;
+    }
+}
+
+/* Scritta animata nella Home */
+.moving-text {
+    position: relative;
+    overflow: hidden;
+    margin-top: 20px;
+    height: 40px; /* Altezza della scritta */
+}
+
+.moving-text span {
+    position: absolute;
+    white-space: nowrap;
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--dark-green);
+    font-family: 'Nosifer', cursive; /* Usa il font Nosifer */
+    animation: move-text 5s linear infinite;
+}
+
+@keyframes move-text {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
