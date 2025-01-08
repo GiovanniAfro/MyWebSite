@@ -1,0 +1,13 @@
+:root {
+    /* Colori del tema */
+    --dark-green: #184A45;
+    --bright-yellow: #FFC107;
+    --neutral-gray: #EDEDED;
+    --dark-blue: #1E293B;
+    --white: #FFFFFF;
+
+    /* Dimensioni e spazi standard */
+    --header-height: 120px;
+    --content-padding: 250px;
+    --section-max-width: 800px;
+}

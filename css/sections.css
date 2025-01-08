@@ -1,0 +1,38 @@
+/* Stili delle sezioni */
+section {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    padding: 2rem;
+    max-width: var(--section-max-width);
+    margin: 0 auto;
+    text-align: center;
+}
+
+section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+section:hover {
+    background-color: var(--dark-green);
+    color: var(--white);
+    transform: scale(1.02);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+section h1, 
+section h2 {
+    margin-bottom: 1rem;
+}
+
+section p {
+    margin-bottom: 1.5rem;
+}
+
+section.hidden {
+    display: none;
+}

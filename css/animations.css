@@ -1,0 +1,69 @@
+/* Testo scorrevole */
+.moving-text-container {
+    position: fixed;
+    top: 255px;
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: transparent;
+    overflow: hidden;
+    z-index: 999;
+}
+
+.moving-text {
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    animation: scrollText 15s linear infinite;
+}
+
+.moving-text span {
+    font-family: 'Nosifer', cursive;
+    font-size: 36px;
+    color: var(--dark-green);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+@keyframes scrollText {
+    from {
+        transform: translateX(100vw);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Particelle */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    background: var(--dark-green);
+    border-radius: 50%;
+    opacity: 0.6;
+    width: 8px;
+    height: 8px;
+    animation: particle-animation 1.5s ease-out;
+}
+
+@keyframes particle-animation {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Animazioni di scroll */
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
