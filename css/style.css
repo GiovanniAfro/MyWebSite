@@ -1,10 +1,9 @@
-/* Stili generali già definiti */
 :root {
-    --dark-green: #184A45; /* Verde scuro */
-    --bright-yellow: #FFC107; /* Giallo brillante */
-    --neutral-gray: #EDEDED; /* Sfondo principale */
-    --dark-blue: #1E293B; /* Blu scuro */
-    --white: #FFFFFF; /* Bianco */
+    --dark-green: #184A45;
+    --bright-yellow: #FFC107;
+    --neutral-gray: #EDEDED;
+    --dark-blue: #1E293B;
+    --white: #FFFFFF;
 }
 
 /* Layout generale */
@@ -20,7 +19,7 @@ header {
     background: var(--bright-yellow);
     color: var(--dark-green);
     display: flex;
-    flex-direction: column; /* Layout verticale */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 1rem;
@@ -32,7 +31,7 @@ header {
 }
 
 .logo-container {
-    margin-bottom: 10px; /* Spazio sotto il logo */
+    margin-bottom: 10px;
 }
 
 .logo {
@@ -40,7 +39,7 @@ header {
     height: auto;
 }
 
-/* Menu di navigazione sotto il logo */
+/* Menu di navigazione */
 header nav ul {
     list-style: none;
     padding: 0;
@@ -60,33 +59,109 @@ header nav ul li a:hover {
     color: var(--dark-blue);
 }
 
-/* Sezioni visibili correttamente */
+/* Contenitore testo animato */
+.moving-text-container {
+    position: fixed;
+    top: 255px; /* Aumentiamo questo valore per abbassare la scritta */
+    left: 0;
+    width: 100%;
+    height: 60px;
+    background-color: transparent; /* Rimuoviamo lo sfondo per farlo apparire sulla parte bianca */
+    overflow: hidden;
+    z-index: 999;
+}
+
+.moving-text {
+    position: absolute;
+    white-space: nowrap;
+    will-change: transform;
+    animation: scrollText 15s linear infinite;
+}
+
+.moving-text span {
+    font-family: 'Nosifer', cursive;
+    font-size: 36px;
+    color: var(--dark-green);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+@keyframes scrollText {
+    from {
+        transform: translateX(100vw);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Effetto particelle */
+.particle {
+    position: absolute;
+    pointer-events: none;
+    background: var(--dark-green);
+    border-radius: 50%;
+    opacity: 0.6;
+    width: 8px;
+    height: 8px;
+    animation: particle-animation 1.5s ease-out;
+}
+
+@keyframes particle-animation {
+    0% {
+        transform: translateY(0) scale(0);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+    }
+}
+
+/* Layout principale */
 main {
-    padding-top: 200px; /* Compensa l'altezza del menu fisso */
+    padding-top: 250px;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: calc(100vh - 200px); /* Ogni sezione occupa l'intero schermo meno il menu */
+    min-height: calc(100vh - 250px);
 }
 
+/* Gestione sezioni */
 section {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
     padding: 2rem;
-    margin: 0 auto;
     max-width: 800px;
-    background-color: var(--white);
-    border-left: 6px solid var(--bright-yellow);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    position: relative;
+    margin: 0 auto;
     text-align: center;
-    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
 }
 
-/* Hover su sezione */
+section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
 section:hover {
     background-color: var(--dark-green);
     color: var(--white);
     transform: scale(1.02);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Classi per animazione scroll */
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.scroll-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 /* Footer */
@@ -98,9 +173,7 @@ footer {
     margin-top: 2rem;
 }
 
-/* Responsive Design */
-
-/* Schermi medi (tablet) */
+/* Media Queries */
 @media (max-width: 768px) {
     header {
         padding: 1rem;
@@ -115,12 +188,15 @@ footer {
         max-width: 120px;
     }
 
+    .moving-text span {
+        font-size: 24px;
+    }
+
     section {
         max-width: 90%;
     }
 }
 
-/* Schermi piccoli (smartphone) */
 @media (max-width: 480px) {
     header {
         padding: 0.5rem;
@@ -130,35 +206,12 @@ footer {
         max-width: 100px;
     }
 
+    .moving-text span {
+        font-size: 20px;
+    }
+
     section {
         max-width: 95%;
         padding: 1.5rem;
-    }
-}
-
-/* Scritta animata nella Home */
-.moving-text {
-    position: relative;
-    overflow: hidden;
-    margin-top: 20px;
-    height: 40px; /* Altezza della scritta */
-}
-
-.moving-text span {
-    position: absolute;
-    white-space: nowrap;
-    font-size: 24px;
-    font-weight: bold;
-    color: var(--dark-green);
-    font-family: 'Nosifer', cursive; /* Usa il font Nosifer */
-    animation: move-text 5s linear infinite;
-}
-
-@keyframes move-text {
-    from {
-        transform: translateX(100%);
-    }
-    to {
-        transform: translateX(-100%);
     }
 }
