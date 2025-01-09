@@ -6,8 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     navLinks.forEach(link => {
         link.addEventListener("click", (e) => {
             e.preventDefault();
-            const sectionId = e.target.getAttribute("data-section");
 
+            // 1) Rimuove la classe .active-link da tutti i link
+            navLinks.forEach(l => l.classList.remove('active-link'));
+            
+            // 2) Aggiunge la classe al link appena cliccato
+            link.classList.add('active-link');
+
+            // 3) Mostra la sezione corrispondente
+            const sectionId = e.target.getAttribute("data-section");
             sections.forEach(section => {
                 section.classList.remove("active");
                 section.classList.add("hidden");

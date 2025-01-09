@@ -1,26 +1,47 @@
 header {
-    background: var(--bright-yellow);
-    color: var(--dark-green);
+    background: linear-gradient(to bottom, #febe06 0%, #febe06 100%);
+    background-color:#febe06; /* o var(--bright-yellow) se vuoi */
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: column;   /* stacking: logo poi nav */
+    align-items: center;      /* centrato orizzontalmente */
     justify-content: center;
-    padding: 1rem;
+    padding: 1rem 0;
     position: fixed;
-    top: 0;
     width: 100%;
+    top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo-container {
-    margin-bottom: 10px;
+    margin-bottom: 0.5rem;
 }
 
 .logo {
-    max-width: 200px;
+    max-width: 160px; /* dimensione a piacere */
     height: auto;
 }
+
+.logo-container:hover {
+    transform: scale(1.05);
+    transition: transform 0.3s ease;
+}
+
+
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+}
+nav ul li a {
+    color: var(--dark-green);
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+nav ul li a:hover {
+    color: var(--dark-blue);
+}
+
 
 header nav ul {
     list-style: none;
@@ -69,10 +90,17 @@ header nav ul li a.active-link {
 header nav ul li a.active-link::after {
     content: "";
     position: absolute;
-    bottom: 0;
+    bottom: -2px;               /* Regola in base al tuo gusto */
     left: 0;
     width: 100%;
-    height: 3px;                           /* Potresti dargli uno spessore diverso */
-    background-color: var(--dark-blue);    /* Stesso colore del link */
-    transform: translateX(0);              /* Di base è visibile */
+    height: 2px;
+    background-color: var(--dark-blue);
+    /* Qui puoi farci un effetto animato se vuoi, per esempio: */
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+header nav ul li a.active-link:hover::after {
+    transform: scaleX(1);
 }
