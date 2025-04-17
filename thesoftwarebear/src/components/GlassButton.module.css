@@ -1,0 +1,394 @@
+/* Definizioni @property RIMOSSE da qui */
+
+/* ========== BUTTON ========== */
+
+/* Button Wrap Container */
+.buttonWrap {
+  /* Sposta le variabili qui */
+  --button--anim-hover-time: 400ms;
+  --button--anim-hover-ease: cubic-bezier(0.25, 1, 0.5, 1);
+
+  position: relative;
+  z-index: 2; /* Assicurati che sia sopra altri elementi se necessario */
+  border-radius: 999vw;
+  background: transparent;
+  pointer-events: none; /* Permette click sul button interno */
+  transition: transform var(--button--anim-hover-time) var(--button--anim-hover-ease);
+  display: inline-block; /* Per farlo comportare come un bottone inline */
+}
+
+/* Button Shadow Container */
+.buttonShadow {
+  --shadow-cuttoff-fix: 2em; /* Usa em per scalare con la font-size */
+  position: absolute;
+  width: calc(100% + var(--shadow-cuttoff-fix));
+  height: calc(100% + var(--shadow-cuttoff-fix));
+  top: calc(0% - var(--shadow-cuttoff-fix) / 2);
+  left: calc(0% - var(--shadow-cuttoff-fix) / 2);
+  filter: blur(clamp(2px, 0.125em, 12px));
+  -webkit-filter: blur(clamp(2px, 0.125em, 12px));
+  overflow: visible;
+  pointer-events: none;
+  z-index: -1; /* Dietro al bottone */
+}
+
+/* Shadow */
+.buttonShadow::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  border-radius: 999vw;
+  /* Sfondo ombra - ADATTARE AL TEMA */
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.1)); 
+  width: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+  height: calc(100% - var(--shadow-cuttoff-fix) - 0.25em);
+  top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+  left: calc(var(--shadow-cuttoff-fix) - 0.875em);
+  padding: 0.125em;
+  box-sizing: border-box;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  transition: all var(--button--anim-hover-time) var(--button--anim-hover-ease);
+  overflow: visible;
+  opacity: 1;
+}
+
+/* ========== BUTTON BASE STYLES ========== */
+
+.buttonWrap button {
+  /* Basic Styling */
+  --border-width: clamp(1px, 0.0625em, 4px);
+  all: unset; /* Resetta stili del browser */
+  cursor: pointer;
+  position: relative;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  pointer-events: auto; /* Abilita click */
+  z-index: 1; /* Sopra l'ombra */
+  /* Sfondo - ADATTARE AL TEMA */
+  background: linear-gradient(-75deg, var(--button-bg-start), var(--button-bg-mid), var(--button-bg-start));
+  border-radius: 999vw;
+  /* Ombre - ADATTARE AL TEMA */
+  box-shadow: inset 0 0.125em 0.125em var(--button-shadow-color-1),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+    0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.2),
+    0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2),
+    0 0 0 0 rgba(255, 255, 255, 1);
+  backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+  -webkit-backdrop-filter: blur(clamp(1px, 0.125em, 4px));
+  transition: all var(--button--anim-hover-time) var(--button--anim-hover-ease);
+  display: block; /* Occupa lo spazio del wrapper */
+  font-size: inherit; /* Eredita font-size */
+}
+
+.buttonWrap button:hover {
+  transform: scale(0.975);
+  backdrop-filter: blur(0.01em);
+  -webkit-backdrop-filter: blur(0.01em);
+  /* Ombre Hover - ADATTARE AL TEMA */
+  box-shadow: inset 0 0.125em 0.125em var(--button-shadow-color-1),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+    0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.25),
+    0 0 0.05em 0.1em inset rgba(255, 255, 255, 0.5),
+    0 0 0 0 rgba(255, 255, 255, 1);
+}
+
+/* Button Text */
+.buttonWrap button span {
+  position: relative;
+  display: block;
+  user-select: none;
+  -webkit-user-select: none;
+  font-family: inherit; /* Usa font del sito */
+  letter-spacing: -0.05em;
+  font-weight: 500; /* O usa il peso del tema */
+  font-size: 1em; /* Relativo al font-size del wrapper */
+  /* Colore Testo - ADATTARE AL TEMA */
+  color: var(--button-text-color);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Ombra Testo - ADATTARE AL TEMA */
+  text-shadow: 0em 0.25em 0.05em rgba(0, 0, 0, 0.1);
+  transition: all var(--button--anim-hover-time) var(--button--anim-hover-ease);
+  padding-inline: 1.5em;
+  padding-block: 0.875em;
+  white-space: nowrap; /* Evita che il testo vada a capo */
+}
+
+.buttonWrap button:hover span {
+  /* Ombra Testo Hover - ADATTARE AL TEMA */
+  text-shadow: 0.025em 0.025em 0.025em rgba(0, 0, 0, 0.12);
+}
+
+/* Effetto luce sul testo */
+.buttonWrap button span::after {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 3;
+  width: calc(100% - var(--border-width)); /* Prevent overlapping border */
+  height: calc(100% - var(--border-width));
+  top: calc(0% + var(--border-width) / 2);
+  left: calc(0% + var(--border-width) / 2);
+  box-sizing: border-box;
+  border-radius: 999vw;
+  overflow: clip;
+  /* Gradiente luce - ADATTARE AL TEMA */
+  background: linear-gradient(
+    var(--angle-2),
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.5) 40% 50%,
+    rgba(255, 255, 255, 0) 55%
+  );
+  z-index: 3;
+  mix-blend-mode: screen; /* Prova anche 'overlay' o 'soft-light' con i colori del tema */
+  pointer-events: none;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
+  background-repeat: no-repeat;
+  transition: background-position calc(var(--button--anim-hover-time) * 1.25)
+      var(--button--anim-hover-ease),
+    --angle-2 calc(var(--button--anim-hover-time) * 1.25) var(--button--anim-hover-ease);
+}
+
+.buttonWrap button:hover span::after {
+  background-position: 25% 50%;
+}
+
+.buttonWrap button:active span::after {
+  background-position: 50% 15%;
+  --angle-2: -15deg;
+}
+
+/* Touch Devices */
+@media (hover: none) and (pointer: coarse) {
+  .buttonWrap button span::after,
+  .buttonWrap button:active span::after {
+    --angle-2: -45deg;
+  }
+}
+
+/* ========== BUTTON OUTLINE ========== */
+
+/* Outline */
+.buttonWrap button::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  border-radius: 999vw;
+  width: calc(100% + var(--border-width));
+  height: calc(100% + var(--border-width));
+  top: calc(0% - var(--border-width) / 2);
+  left: calc(0% - var(--border-width) / 2);
+  padding: var(--border-width);
+  box-sizing: border-box;
+  /* Gradiente bordo - ADATTARE AL TEMA */
+  background: conic-gradient(
+      from var(--angle-1) at 50% 50%,
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.5) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.5)
+    ),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5));
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+  transition: all var(--button--anim-hover-time) var(--button--anim-hover-ease),
+    --angle-1 500ms ease;
+  /* Luce interna bordo - ADATTARE AL TEMA */
+  box-shadow: inset 0 0 0 calc(var(--border-width) / 2) rgba(255, 255, 255, 0.5);
+}
+
+.buttonWrap button:hover::after {
+  --angle-1: -125deg;
+}
+
+.buttonWrap button:active::after {
+  --angle-1: -75deg;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .buttonWrap button::after,
+  .buttonWrap button:hover::after,
+  .buttonWrap button:active::after {
+    --angle-1: -75deg;
+  }
+}
+
+/* Shadow Hover */
+.buttonWrap:has(button:hover) .buttonShadow {
+  filter: blur(clamp(2px, 0.0625em, 6px));
+  -webkit-filter: blur(clamp(2px, 0.0625em, 6px));
+  transition: filter var(--button--anim-hover-time) var(--button--anim-hover-ease);
+}
+
+.buttonWrap:has(button:hover) .buttonShadow::after {
+  top: calc(var(--shadow-cuttoff-fix) - 0.875em);
+  opacity: 1;
+}
+
+/* Rotation */
+.buttonWrap:has(button:active) {
+  transform: rotate3d(1, 0, 0, 25deg);
+}
+
+/* Ombre Active - ADATTARE AL TEMA */
+.buttonWrap:has(button:active) button {
+  box-shadow: inset 0 0.125em 0.125em var(--button-shadow-color-1),
+    inset 0 -0.125em 0.125em rgba(255, 255, 255, 0.5),
+    0 0.125em 0.125em -0.125em rgba(0, 0, 0, 0.2),
+    0 0 0.1em 0.25em inset rgba(255, 255, 255, 0.2),
+    0 0.225em 0.05em 0 rgba(0, 0, 0, 0.05),
+    0 0.25em 0 0 rgba(255, 255, 255, 0.75),
+    inset 0 0.25em 0.05em 0 rgba(0, 0, 0, 0.15);
+}
+
+.buttonWrap:has(button:active) .buttonShadow {
+  filter: blur(clamp(2px, 0.125em, 12px));
+  -webkit-filter: blur(clamp(2px, 0.125em, 12px));
+}
+
+.buttonWrap:has(button:active) .buttonShadow::after {
+  top: calc(var(--shadow-cuttoff-fix) - 0.5em);
+  opacity: 0.75;
+}
+
+/* Ombra Testo Active - ADATTARE AL TEMA */
+.buttonWrap:has(button:active) span {
+  text-shadow: 0.025em 0.25em 0.05em rgba(0, 0, 0, 0.12);
+}
+
+/* --- TEMA SCURO --- */
+.darkTheme button {
+  /* Sfondo */
+  background: linear-gradient(
+    -75deg,
+    rgba(255, 193, 7, 0.05), /* Giallo trasparente */
+    rgba(255, 193, 7, 0.15),/* Giallo trasparente */
+    rgba(255, 193, 7, 0.05) /* Giallo trasparente */
+  );
+  /* Ombre */
+  box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.1), /* Ombra scura interna */
+    inset 0 -0.125em 0.125em rgba(255, 193, 7, 0.3), /* Luce gialla interna */
+    0 0.25em 0.125em -0.125em rgba(0, 0, 0, 0.3),  /* Ombra scura esterna */
+    0 0 0.1em 0.25em inset rgba(255, 193, 7, 0.1); /* Luce gialla bordi */
+}
+.darkTheme button:hover {
+   box-shadow: inset 0 0.125em 0.125em rgba(0, 0, 0, 0.1), 
+    inset 0 -0.125em 0.125em rgba(255, 193, 7, 0.3),
+    0 0.15em 0.05em -0.1em rgba(0, 0, 0, 0.4), /* Ombra esterna più scura */
+    0 0 0.05em 0.1em inset rgba(255, 193, 7, 0.3);
+}
+.darkTheme button span {
+  color: #FFC107; /* Testo giallo */
+  text-shadow: 0em 0.05em 0.05em rgba(0, 0, 0, 0.4); /* Ombra testo più scura */
+}
+.darkTheme button:hover span {
+   text-shadow: 0.025em 0.025em 0.025em rgba(0, 0, 0, 0.5);
+}
+.darkTheme button span::after { /* Effetto luce */
+   background: linear-gradient(
+    var(--angle-2),
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.3) 40% 50%, /* Luce bianca */
+    rgba(255, 255, 255, 0) 55%
+  );
+   mix-blend-mode: overlay; /* Prova diversi blend mode */
+}
+.darkTheme button::after { /* Bordo */
+   background: conic-gradient(
+      from var(--angle-1) at 50% 50%,
+      rgba(0, 0, 0, 0.6), /* Bordo scuro */
+      rgba(0, 0, 0, 0) 5% 40%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0) 60% 95%,
+      rgba(0, 0, 0, 0.6)
+    ),
+    linear-gradient(180deg, rgba(255, 193, 7, 0.4), rgba(255, 193, 7, 0.2)); /* Base gialla */
+   box-shadow: inset 0 0 0 calc(var(--border-width) / 2) rgba(255, 193, 7, 0.4); /* Luce interna gialla */
+}
+.darkTheme .buttonShadow::after { /* Ombra esterna */
+   background: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(0, 0, 0, 0.15));
+}
+.darkTheme:has(button:active) button { /* Active state */
+   box-shadow: /* Simile a sopra, magari più accentuato */
+    inset 0 0.125em 0.125em rgba(0, 0, 0, 0.1), 
+    inset 0 -0.125em 0.125em rgba(255, 193, 7, 0.3),
+    0 0.125em 0.125em -0.125em rgba(0, 0, 0, 0.3), 
+    0 0 0.1em 0.25em inset rgba(255, 193, 7, 0.1),
+    0 0.225em 0.05em 0 rgba(0, 0, 0, 0.1), /* Ombra pressione */
+    0 0.25em 0 0 rgba(255, 193, 7, 0.5), /* Luce pressione */
+    inset 0 0.25em 0.05em 0 rgba(0, 0, 0, 0.2);
+}
+.darkTheme:has(button:active) span {
+  text-shadow: 0.025em 0.1em 0.05em rgba(0, 0, 0, 0.5); /* Ombra testo pressione */
+}
+
+
+/* --- TEMA CHIARO --- */
+.lightTheme button {
+  /* Sfondo */
+  background: linear-gradient(
+    -75deg,
+    rgba(24, 74, 69, 0.05), /* Verde trasparente */
+    rgba(24, 74, 69, 0.15), /* Verde trasparente */
+    rgba(24, 74, 69, 0.05)  /* Verde trasparente */
+  );
+  /* Ombre */
+   box-shadow: inset 0 0.125em 0.125em rgba(255, 255, 255, 0.2), /* Luce interna */
+    inset 0 -0.125em 0.125em rgba(24, 74, 69, 0.3),  /* Ombra verde interna */
+    0 0.25em 0.125em -0.125em rgba(24, 74, 69, 0.3), /* Ombra verde esterna */
+    0 0 0.1em 0.25em inset rgba(24, 74, 69, 0.1);    /* Ombra verde bordi */
+}
+.lightTheme button:hover {
+   box-shadow: inset 0 0.125em 0.125em rgba(255, 255, 255, 0.2), 
+    inset 0 -0.125em 0.125em rgba(24, 74, 69, 0.3), 
+    0 0.15em 0.05em -0.1em rgba(24, 74, 69, 0.4), /* Ombra esterna più scura */
+    0 0 0.05em 0.1em inset rgba(24, 74, 69, 0.2);
+}
+.lightTheme button span {
+  color: #184A45; /* Testo verde */
+  text-shadow: 0em 0.05em 0.05em rgba(255, 255, 255, 0.4); /* Luce testo */
+}
+.lightTheme button:hover span {
+   text-shadow: 0.025em 0.025em 0.025em rgba(255, 255, 255, 0.5);
+}
+.lightTheme button span::after { /* Effetto luce */
+   background: linear-gradient(
+    var(--angle-2),
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 40% 50%, /* Luce bianca */
+    rgba(255, 255, 255, 0) 55%
+  );
+   mix-blend-mode: screen; /* Prova diversi blend mode */
+}
+.lightTheme button::after { /* Bordo */
+   background: conic-gradient(
+      from var(--angle-1) at 50% 50%,
+      rgba(255, 255, 255, 0.6), /* Bordo chiaro */
+      rgba(255, 255, 255, 0) 5% 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 60% 95%,
+      rgba(255, 255, 255, 0.6)
+    ),
+    linear-gradient(180deg, rgba(24, 74, 69, 0.4), rgba(24, 74, 69, 0.2)); /* Base verde */
+   box-shadow: inset 0 0 0 calc(var(--border-width) / 2) rgba(24, 74, 69, 0.4); /* Ombra interna verde */
+}
+.lightTheme .buttonShadow::after { /* Ombra esterna */
+   background: linear-gradient(180deg, rgba(24, 74, 69, 0.2), rgba(24, 74, 69, 0.1));
+}
+.lightTheme:has(button:active) button { /* Active state */
+   box-shadow: /* Simile a sopra, magari più accentuato */
+    inset 0 0.125em 0.125em rgba(255, 255, 255, 0.2), 
+    inset 0 -0.125em 0.125em rgba(24, 74, 69, 0.3), 
+    0 0.125em 0.125em -0.125em rgba(24, 74, 69, 0.3), 
+    0 0 0.1em 0.25em inset rgba(24, 74, 69, 0.1),
+    0 0.225em 0.05em 0 rgba(24, 74, 69, 0.1), /* Ombra pressione */
+    0 0.25em 0 0 rgba(255, 255, 255, 0.5), /* Luce pressione */
+    inset 0 0.25em 0.05em 0 rgba(24, 74, 69, 0.2);
+}
+.lightTheme:has(button:active) span {
+  text-shadow: 0.025em 0.1em 0.05em rgba(255, 255, 255, 0.5); /* Luce testo pressione */
+}

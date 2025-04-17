@@ -17,12 +17,20 @@
     left: 0;
     width: 0.5rem;
     height: 0.5rem;
-    background: rgba(255, 193, 7, 0.7);
     border-radius: 50%;
     transform: translate3d(calc(var(--x) - 50%), calc(var(--y) - 50%), 0);
     content: "";
     will-change: transform;
     z-index: 1;
+  }
+  
+  /* Colore del punto che segue il cursore basato sul tema */
+  .waves[data-theme="dark"]::before {
+    background: rgba(255, 193, 7, 0.7); /* Giallo in modalità scura */
+  }
+  
+  .waves[data-theme="light"]::before {
+    background: rgba(24, 74, 69, 0.7); /* Verde in modalità chiara */
   }
   
   .waves canvas {

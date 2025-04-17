@@ -4,7 +4,18 @@ import { useEffect, useRef } from 'react';
 import { Noise } from '@/lib/noise';
 import styles from './WavesEffect.module.css';
 
-export default function WavesEffect() {
+// Assicurati che queste interfacce siano definite o importate
+interface PointData {
+  x: number;
+  y: number;
+  wave: { x: number; y: number };
+  cursor: { x: number; y: number; vx: number; vy: number };
+}
+interface WavesEffectProps {
+  theme: 'light' | 'dark';
+}
+
+export default function WavesEffect({ theme }: WavesEffectProps) { // Riceve il tema come prop
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -32,7 +43,7 @@ export default function WavesEffect() {
       set: false
     };
 
-    let lines: any[] = [];
+    let lines: PointData[][] = [];
     const noise = new Noise(Math.random());
 
     // Set size
@@ -60,10 +71,10 @@ export default function WavesEffect() {
       const yStart = (height - yGap * totalPoints) / 2;
 
       for (let i = 0; i <= totalLines; i++) {
-        const points = [];
+        const points: PointData[] = [];
 
         for (let j = 0; j <= totalPoints; j++) {
-          const point = {
+          const point: PointData = {
             x: xStart + xGap * i,
             y: yStart + yGap * j,
             wave: { x: 0, y: 0 },
@@ -94,7 +105,7 @@ export default function WavesEffect() {
     // Move points
     function movePoints(time: number) {
       lines.forEach((points) => {
-        points.forEach((p: any) => {
+        points.forEach((p: PointData) => {
           // Wave movement
           const move =
             noise.perlin2(
@@ -134,7 +145,7 @@ export default function WavesEffect() {
     }
 
     // Get point coordinates with movement added
-    function moved(point: any, withCursorForce = true) {
+    function moved(point: PointData, withCursorForce = true): { x: number, y: number } {
       const coords = {
         x: point.x + point.wave.x + (withCursorForce ? point.cursor.x : 0),
         y: point.y + point.wave.y + (withCursorForce ? point.cursor.y : 0)
@@ -152,28 +163,27 @@ export default function WavesEffect() {
       ctx!.clearRect(0, 0, bounding.width, bounding.height);
 
       ctx!.beginPath();
-      ctx!.strokeStyle = "rgba(255, 193, 7, 0.5)"; // Colore giallo (FFC107) semi-trasparente
+      
+      // *** Qui ripristiniamo la logica del tema ***
+      ctx!.strokeStyle = theme === 'dark' 
+        ? "rgba(255, 193, 7, 0.5)" // Giallo semi-trasparente in modalità scura
+        : "rgba(24, 74, 69, 0.5)"; // Verde semi-trasparente in modalità chiara
+      // *** Ripristina lo spessore desiderato (probabilmente 1.5) ***
+      ctx!.lineWidth = 1.5; 
 
-      lines.forEach((points) => {
-        let p1 = moved(points[0], false);
-
-        ctx!.moveTo(p1.x, p1.y);
-
-        points.forEach((p1: any, pIndex: number) => {
+      // Ciclo di Disegno
+      lines.forEach((points: PointData[]) => { 
+        if (points.length === 0) return; 
+        const startPos = moved(points[0], false); 
+        ctx!.moveTo(startPos.x, startPos.y); 
+        points.forEach((currentPoint: PointData, pIndex: number) => {
           const isLast = pIndex === points.length - 1;
-
-          p1 = moved(p1, !isLast);
-
-          const p2 = moved(
-            points[pIndex + 1] || points[points.length - 1],
-            !isLast
-          );
-
-          ctx!.lineTo(p1.x, p1.y);
+          const finalPos = moved(currentPoint, !isLast); 
+          ctx!.lineTo(finalPos.x, finalPos.y); 
         });
       });
 
-      ctx!.stroke();
+      ctx!.stroke(); 
     }
 
     // Animation tick
@@ -243,10 +253,10 @@ export default function WavesEffect() {
       cancelAnimationFrame(animationFrame);
     };
 
-  }, []);
+  }, [theme]); // Manteniamo 'theme' come dipendenza
 
   return (
-    <div className={styles.waves} ref={containerRef}>
+    <div className={styles.waves} ref={containerRef} data-theme={theme}>
       <canvas ref={canvasRef} />
     </div>
   );

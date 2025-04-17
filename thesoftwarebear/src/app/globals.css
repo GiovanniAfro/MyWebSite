@@ -4,20 +4,37 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Aggiungi queste definizioni @property */
+@property --angle-1 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -75deg;
+}
+
+@property --angle-2 {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: -45deg;
+}
+
 :root {
   --foreground-rgb: 255, 255, 255;
   --background-start-rgb: 24, 74, 69; /* Dark Green */
   --background-end-rgb: 20, 60, 55;
 }
 
+html,
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  /* Assicura che entrambi occupino sempre tutta l'altezza e larghezza senza spazi */
+}
+
+/* Stile di default per il body (SENZA color e background) */
+body {
+  /* Rimuovi le righe 'color: ...' e 'background: ...' da qui */
+  /* Puoi lasciare altri stili body se necessari, es: font-family di base */
 }
 
 @layer base {
